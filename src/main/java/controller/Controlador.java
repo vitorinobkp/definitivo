@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.Produto;
 import model.ProdutoRules;
 
@@ -17,9 +19,37 @@ public class Controlador {
 				 compativelMac,  outros,  nome,  descricao,  compativelSocket,
 				 compativelSlot,  categoria);
 		if(produtoRules.validarCadastro(p).equals("")){
-			return produtoRules.cadastrarProduto(p);
+			if(buscarProduto(p.getCodigo(), null) == null){
+				return produtoRules.cadastrarProduto(p);
+			}else{
+				return produtoRules.atualizarProduto(p);
+			}
 		} else {
 			return null;
 		}
 	}
+	
+	public ArrayList<Produto> buscarProdutosPorNome(String nome){
+		return produtoRules.buscarProdutosPorNome(nome);
+	}
+	
+	public ArrayList<Produto> buscarTodosOsProdutos(){
+		return produtoRules.buscarTodos();
+	}
+	
+	public Produto buscarProduto(int codigo, String nome){
+		codigo = codigo < 0 ? 0 : codigo;
+		nome = nome == null ? "" : nome;
+		return produtoRules.buscarProduto(codigo, nome);
+	}
+
+	public boolean excluirProduto(int codigo) {
+		return produtoRules.excluirProduto(codigo);
+	}
+
+    public void darBaixaNoEstoque(int codigo, int qtd) {
+        Produto p = buscarProduto(codigo, "");
+        p.setQuantidade(p.getQuantidade() - qtd);
+        produtoRules.atualizarProduto(p);
+    }
 }

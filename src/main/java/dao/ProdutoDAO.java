@@ -44,14 +44,21 @@ public class ProdutoDAO {
 		try{
 			String sql = null;
 			sql = "update produtos set"
-					+ "nome = _nome,"
-					+ "descricao = _descricao,"
+					+ " nome = '_nome',"
+					+ "descricao = '_descricao',"
 					+ "quantidade = _quantidade,"
 					+ "preco = _preco";
-			sql.replaceAll("_nome", produto.getNome()).
-			replaceAll("_descricao", produto.getDescricao()).
-			replaceAll("_quantidade", String.valueOf(produto.getQuantidade())).
-			replaceAll("_preco", String.valueOf(produto.getPreco()));
+			sql = sql.replaceAll("_nome", produto.getNome());
+			sql = sql.replaceAll("_descricao", produto.getDescricao());
+			sql = sql.replaceAll("_quantidade", String.valueOf(produto.getQuantidade()));
+			sql = sql.replaceAll("_preco", String.valueOf(produto.getPreco()));
+			sql = sql.replaceAll("_compativel_Windows", produto.getCompativelWindows());
+			sql = sql.replaceAll("_compativel_Linux", produto.getCompativelLinux());
+			sql = sql.replaceAll("_compativel_Mac", produto.getCompativelMac());
+			sql = sql.replaceAll("_compativel_Outros", produto.getOutros());
+			sql = sql.replaceAll("_compativel_Socket", produto.getCompativelSocket());
+			sql = sql.replaceAll("_compativel_Slot", produto.getCompativelSlot());
+			sql = sql.replaceAll("_categoria", produto.getCategoria());
 			conexao.executeSQL(sql);
 			return "";
 		} catch (Exception e) {
@@ -93,7 +100,7 @@ public class ProdutoDAO {
 		}
 		return lstProduto;
 	}
-	
+
 	public Produto buscarPorId(int id) throws SQLException {
 		String sql = "SELECT * FROM PRODUTOS WHERE ID = " + String.valueOf(id);
 		ResultSet rs = conexao.executeConsulta(sql);
@@ -116,8 +123,41 @@ public class ProdutoDAO {
 		return p;
 	}
 	
-	public Produto buscarPorNome(String nomeProduto) throws SQLException {
-		String sql = "SELECT * FROM PRODUTOS WHERE nome = " + nomeProduto;
+	public ArrayList<Produto> buscarPorNome(String nomeProduto) throws SQLException {
+		String sql = "SELECT * FROM PRODUTOS WHERE nome like '%" + nomeProduto + "%'";
+		ResultSet rs = conexao.executeConsulta(sql);
+		ArrayList<Produto> lstProdutos = new ArrayList<>();
+		Produto p = null;
+		while (rs.next()) {
+			p = new Produto();
+			p.setCodigo(rs.getInt(1));
+			p.setNome(rs.getString(2));
+			p.setDescricao(rs.getString(3));
+			p.setQuantidade(rs.getInt(4));
+			p.setPreco(rs.getDouble(5));
+			p.setCompativelWindows(rs.getString(6));
+			p.setCompativelLinux(rs.getString(7));
+			p.setOutros(rs.getString(8));
+			p.setCompativelSocket(rs.getString(9));
+			p.setCompativelMac(rs.getString(10));
+			p.setCompativelSlot(rs.getString(11));
+			p.setCategoria(rs.getString(12));
+			lstProdutos.add(p);
+		}
+		return lstProdutos;
+	}
+	
+	public Produto buscarProduto(int codigo, String nomeProduto) throws SQLException {
+		String sql = "SELECT * FROM PRODUTOS WHERE 1=1 ";
+		if(codigo > 0){
+			sql+= " AND id = " + codigo;
+		}
+		if(!nomeProduto.equals("")){
+			sql+= " AND nome like '%" + nomeProduto + "%'";
+		}
+                if(codigo <= 0 && nomeProduto.equals("")){
+                    return null;
+                }
 		ResultSet rs = conexao.executeConsulta(sql);
 		Produto p = null;
 		while (rs.next()) {

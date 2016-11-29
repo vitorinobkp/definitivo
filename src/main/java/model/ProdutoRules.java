@@ -45,7 +45,7 @@ public class ProdutoRules {
 	public String cadastrarProduto(Produto p) {
 		String erro = validarCadastro(p);
 		try{
-		if (validarCadastro(p).equals("")) {
+		if (erro.equals("")) {
 			erro = produtoDao.cadastrarProduto(p);
 			if (!erro.equals("")) {
 				return "Erro ao realizar cadastro: " + erro;
@@ -59,6 +59,24 @@ public class ProdutoRules {
 			return "Falha ao cadastrar, "+ e.getMessage();
 		}
 	}
+	
+	public String atualizarProduto(Produto p){
+		String erro = validarCadastro(p);
+		try{
+			if (erro.equals("")) {
+				erro = produtoDao.atualizarProduto(p);
+				if (!erro.equals("")) {
+					return "Erro ao salvar produto: " + erro;
+				} else {
+					return "Produto atualizado com sucesso.";
+				}
+			} else {
+				return erro;
+			} 
+			} catch (Exception e) {
+				return "Falha ao salvar produto, "+ e.getMessage();
+			}
+	}
 
 	public ArrayList<Produto> buscarTodos() {
 		try {
@@ -66,5 +84,25 @@ public class ProdutoRules {
 		} catch (SQLException e) {
 			return null;
 		}
+	}
+	
+	public ArrayList<Produto> buscarProdutosPorNome(String nome){
+		try {
+			return produtoDao.buscarPorNome(nome);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Produto buscarProduto(int codigo, String nome){
+		try{
+			return produtoDao.buscarProduto(codigo, nome);
+		}catch(SQLException e){
+			return null;
+		}
+	}
+
+	public boolean excluirProduto(int codigo) {
+		return produtoDao.excluirProduto(codigo) == "";
 	}
 }
