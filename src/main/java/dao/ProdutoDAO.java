@@ -69,7 +69,7 @@ public class ProdutoDAO {
 	public String excluirProduto(int id){
 		try{
 			String sql = null;
-			sql = "DELETE FROM PRODUTOS WHERE ID = " + String.valueOf(id);
+			sql = "DELETE FROM produtos WHERE ID = " + String.valueOf(id);
 			conexao.executeDelete(sql);
 			return "";
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class ProdutoDAO {
 	
 	public ArrayList<Produto> buscarTodos() throws SQLException {
 		
-		ResultSet rs = conexao.executeConsulta("SELECT * FROM PRODUTOS");
+		ResultSet rs = conexao.executeConsulta("SELECT * FROM produtos");
 		ArrayList<Produto> lstProduto = new ArrayList<Produto>();
 		
 		while (rs.next()) {
@@ -102,7 +102,7 @@ public class ProdutoDAO {
 	}
 
 	public Produto buscarPorId(int id) throws SQLException {
-		String sql = "SELECT * FROM PRODUTOS WHERE ID = " + String.valueOf(id);
+		String sql = "SELECT * FROM produtos WHERE ID = " + String.valueOf(id);
 		ResultSet rs = conexao.executeConsulta(sql);
 		Produto p = null;
 		while (rs.next()) {
@@ -124,7 +124,7 @@ public class ProdutoDAO {
 	}
 	
 	public ArrayList<Produto> buscarPorNome(String nomeProduto) throws SQLException {
-		String sql = "SELECT * FROM PRODUTOS WHERE nome like '%" + nomeProduto + "%'";
+		String sql = "SELECT * FROM produtos WHERE nome like '%" + nomeProduto + "%'";
 		ResultSet rs = conexao.executeConsulta(sql);
 		ArrayList<Produto> lstProdutos = new ArrayList<>();
 		Produto p = null;
@@ -148,7 +148,7 @@ public class ProdutoDAO {
 	}
 	
 	public Produto buscarProduto(int codigo, String nomeProduto) throws SQLException {
-		String sql = "SELECT * FROM PRODUTOS WHERE 1=1 ";
+		String sql = "SELECT * FROM produtos WHERE 1=1 ";
 		if(codigo > 0){
 			sql+= " AND id = " + codigo;
 		}

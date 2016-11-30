@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConnectionFactory {
 	
 	private static ConnectionFactory instance = new ConnectionFactory();
-	public static final String URL = "jdbc:mysql://localhost:3307/estoque?useLegacyDatatimeCode=false&serverTimezone=UTC&useSSL=false";
+	public static final String URL = "jdbc:mysql://52.67.100.22:3306/estoque?useLegacyDatatimeCode=false&serverTimezone=UTC&useSSL=false";
 	public static final String USER = "root";
 	public static final String PASSWORD = "root";
 	public static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
