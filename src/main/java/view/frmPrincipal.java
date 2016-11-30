@@ -72,7 +72,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaItemVenda = new javax.swing.JTable();
         btnFinalizar = new javax.swing.JButton();
-        jpRelatorios = new javax.swing.JPanel();
         btnSair = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
@@ -438,19 +437,6 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jtbSistemaEstoque.addTab("Vendas", jpVendas);
 
-        javax.swing.GroupLayout jpRelatoriosLayout = new javax.swing.GroupLayout(jpRelatorios);
-        jpRelatorios.setLayout(jpRelatoriosLayout);
-        jpRelatoriosLayout.setHorizontalGroup(
-            jpRelatoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 558, Short.MAX_VALUE)
-        );
-        jpRelatoriosLayout.setVerticalGroup(
-            jpRelatoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 461, Short.MAX_VALUE)
-        );
-
-        jtbSistemaEstoque.addTab("Relatorios", jpRelatorios);
-
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -491,76 +477,61 @@ public class frmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantidadeActionPerformed
-
-    private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescricaoActionPerformed
-
-    private void btnCadastroPesquisarCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroPesquisarCodActionPerformed
-        int codigo = -1;
-        try {
-            if (!txtCodigo.getText().equals("")) {
-                codigo = Integer.parseInt(txtCodigo.getText());
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Código informado inválido.");
-            return;
-        }
-        buscarProduto(codigo, txtProduto.getText());
-    }//GEN-LAST:event_btnCadastroPesquisarCodActionPerformed
-
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        Controlador ctrl = new Controlador();
-        if (!camposPreenchidos()) {
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos para realizar cadastro");
-            return;
-        }
-        String compatWindows = chkWindows.isSelected() ? "S" : "N";
-        String compatLinux = chkLinux.isSelected() ? "S" : "N";
-        String compatMac = chkMacOS.isSelected() ? "S" : "N";
-        String outros = chkMacOS.isSelected() ? "S" : "N";
-        Double preco = Double.parseDouble(txtPreco.getText());
-        String erro = ctrl.cadastrarProduto(Integer.valueOf(0), preco,
-                Integer.valueOf(txtQuantidade.getText()), compatWindows, compatLinux, compatMac, outros,
-                String.valueOf(txtProduto.getText()), String.valueOf(txtDescricao.getText()),
-                cbModelo.getSelectedItem().toString(), cbSlot.getSelectedItem().toString(),
-                cbCategoria.getSelectedItem().toString());
-        JOptionPane.showMessageDialog(null, erro);
-        limparTela();
-    }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
-        int codigo = -1;
-        try {
-            if (!txtCodigo.getText().equals("")) {
-                codigo = Integer.parseInt(txtCodigo.getText());
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Código informado inválido.");
-            return;
-        }
-        buscarProduto(codigo, null);
-    }//GEN-LAST:event_txtCodigoFocusLost
-
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int codigo = Integer.parseInt(txtCodigo.getText());;
-        try {
-            if (codigo > 0) {
-                codigo = Integer.parseInt(txtCodigo.getText());
-            }
-        } catch (Exception er) {
-            JOptionPane.showMessageDialog(null, "Código digitado inválido");
-            return;
-        }
-        exluirProduto(codigo);
-    }//GEN-LAST:event_btnExcluirActionPerformed
-
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        //validar se tem placa sim... se tem valida se é compatível
+        //só apresentar mensagem
+        //só dar baixa no estoque
+        try {
+            String erro = "";
+            if (validaPlacaMae()) {
+                erro = verificaCompatibilidadeItens();
+            }
+            if (!erro.equals("")) {
+                JOptionPane.showMessageDialog(null, erro);
+            }
+            for (int i = 0; i < tabelaItemVenda.getRowCount(); i++) {
+                Object codigo = tabelaItemVenda.getValueAt(i,0);
+                Object qtdComprar = tabelaItemVenda.getValueAt(i, 4);
+                Controlador ctrl = new Controlador();
+                ctrl.darBaixaNoEstoque(Integer.parseInt(codigo.toString()),Integer.parseInt(qtdComprar.toString()));
+                JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
+                btnPesquisarVenda.doClick();
+                limparItensVenda();
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Falha na finalização da venda: " + e.getMessage());
+        }
+
+    }//GEN-LAST:event_btnFinalizarActionPerformed
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        try {
+            Object qtdDisponivel = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4);
+            Object qtdComprar = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 5);
+            if (Integer.parseInt(qtdDisponivel.toString()) - Integer.parseInt(qtdComprar.toString()) < 0) {
+                JOptionPane.showMessageDialog(null, "Não tem produto suficiente em estoque para concluir esta venda.");
+                return;
+            }
+            if (Integer.parseInt(qtdComprar.toString()) <= 0) {
+                JOptionPane.showMessageDialog(null, "Informe um valor maior que zero para realizar a compra.");
+                return;
+            }
+            Object valorCodigo = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0);
+            int codigo = Integer.parseInt(valorCodigo.toString());
+            Controlador ctrl = new Controlador();
+            Produto p = ctrl.buscarProduto(codigo, "");
+            DefaultTableModel model = (DefaultTableModel) tabelaItemVenda.getModel();
+            model.addRow(new Object[]{p.getCodigo(), p.getNome(), p.getDescricao(), p.getPreco(), qtdComprar});
+            tabelaItemVenda.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Selecione um item da lista para adicionar.");
+        }
+        btnPesquisarVenda.doClick();
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnPesquisarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarVendaActionPerformed
         Controlador ctrl = new Controlador();
@@ -590,57 +561,72 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPesquisarVendaActionPerformed
 
-    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int codigo = Integer.parseInt(txtCodigo.getText());;
         try {
-            Object qtdDisponivel = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4);
-            Object qtdComprar = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 5);
-            if (Integer.parseInt(qtdDisponivel.toString()) - Integer.parseInt(qtdComprar.toString()) < 0) {
-                JOptionPane.showMessageDialog(null, "Não tem produto suficiente em estoque para concluir esta venda.");
-                return;
+            if (codigo > 0) {
+                codigo = Integer.parseInt(txtCodigo.getText());
             }
-            if (Integer.parseInt(qtdComprar.toString()) <= 0) {
-                JOptionPane.showMessageDialog(null, "Informe um valor maior que zero para realizar a compra.");
-                return;
-            }
-            Object valorCodigo = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0);
-            int codigo = Integer.parseInt(valorCodigo.toString());
-            Controlador ctrl = new Controlador();
-            Produto p = ctrl.buscarProduto(codigo, "");
-            DefaultTableModel model = (DefaultTableModel) tabelaItemVenda.getModel();
-            model.addRow(new Object[]{p.getCodigo(), p.getNome(), p.getDescricao(), p.getPreco(), qtdComprar});
-            tabelaItemVenda.setModel(model);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Selecione um item da lista para adicionar.");
+        } catch (Exception er) {
+            JOptionPane.showMessageDialog(null, "Código digitado inválido");
+            return;
         }
-        btnPesquisarVenda.doClick();
-    }//GEN-LAST:event_btnAdicionarActionPerformed
+        exluirProduto(codigo);
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        //validar se tem placa sim... se tem valida se é compatível
-        //só apresentar mensagem
-        //só dar baixa no estoque
-        try {
-            String erro = "";
-            if (validaPlacaMae()) {
-                erro = verificaCompatibilidadeItens();
-            }
-            if (!erro.equals("")) {
-                JOptionPane.showMessageDialog(null, erro);
-            }
-            for (int i = 0; i < tabelaItemVenda.getRowCount(); i++) {
-                Object codigo = tabelaItemVenda.getValueAt(i,0);
-                Object qtdComprar = tabelaItemVenda.getValueAt(i, 4);
-                Controlador ctrl = new Controlador();
-                ctrl.darBaixaNoEstoque(Integer.parseInt(codigo.toString()),Integer.parseInt(qtdComprar.toString()));
-                JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
-                btnPesquisarVenda.doClick();
-                limparItensVenda();
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Falha na finalização da venda: " + e.getMessage());
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        Controlador ctrl = new Controlador();
+        if (!camposPreenchidos()) {
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos para realizar cadastro");
+            return;
         }
-        
-    }//GEN-LAST:event_btnFinalizarActionPerformed
+        String compatWindows = chkWindows.isSelected() ? "S" : "N";
+        String compatLinux = chkLinux.isSelected() ? "S" : "N";
+        String compatMac = chkMacOS.isSelected() ? "S" : "N";
+        String outros = chkMacOS.isSelected() ? "S" : "N";
+        Double preco = Double.parseDouble(txtPreco.getText());
+        String erro = ctrl.cadastrarProduto(Integer.valueOf(0), preco,
+            Integer.valueOf(txtQuantidade.getText()), compatWindows, compatLinux, compatMac, outros,
+            String.valueOf(txtProduto.getText()), String.valueOf(txtDescricao.getText()),
+            cbModelo.getSelectedItem().toString(), cbSlot.getSelectedItem().toString(),
+            cbCategoria.getSelectedItem().toString());
+        JOptionPane.showMessageDialog(null, erro);
+        limparTela();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnCadastroPesquisarCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroPesquisarCodActionPerformed
+        int codigo = -1;
+        try {
+            if (!txtCodigo.getText().equals("")) {
+                codigo = Integer.parseInt(txtCodigo.getText());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Código informado inválido.");
+            return;
+        }
+        buscarProduto(codigo, txtProduto.getText());
+    }//GEN-LAST:event_btnCadastroPesquisarCodActionPerformed
+
+    private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescricaoActionPerformed
+
+    private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQuantidadeActionPerformed
+
+    private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
+        int codigo = -1;
+        try {
+            if (!txtCodigo.getText().equals("")) {
+                codigo = Integer.parseInt(txtCodigo.getText());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Código informado inválido.");
+            return;
+        }
+        buscarProduto(codigo, null);
+    }//GEN-LAST:event_txtCodigoFocusLost
 
     /**
      * @param args the command line arguments
@@ -714,7 +700,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel jpCadastro;
-    private javax.swing.JPanel jpRelatorios;
     private javax.swing.JPanel jpVendas;
     private javax.swing.JTabbedPane jtbSistemaEstoque;
     private javax.swing.JTable tabelaItemVenda;
