@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class ConnectionFactory {
 	
 	private static ConnectionFactory instance = new ConnectionFactory();
-	public static final String URL = "jdbc:mysql://localhost:3307/estoque?useLegacyDatatimeCode=false&serverTimezone=UTC&useSSL=false";
-	public static final String USER = "root";
-	public static final String PASSWORD = "root";
+	public static final String URL = "jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6146296?useLegacyDatatimeCode=false&serverTimezone=UTC&useSSL=false";
+	public static final String USER = "sql6146296";
+	public static final String PASSWORD = "6yCenPPUPw";
 	public static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
 	
 	ConnectionFactory() {
