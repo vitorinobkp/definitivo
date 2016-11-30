@@ -796,15 +796,16 @@ public class frmPrincipal extends javax.swing.JFrame {
             for (int i = 0; i < tabelaItemVenda.getRowCount(); i++) {
                 int codigo = Integer.valueOf(tabelaItemVenda.getValueAt(i, 0).toString());
                 Produto p = ctrl.buscarProduto(codigo, "");
-                return isPlacaMae(p);
+                if(isPlacaMae(p))
+                    return true;
             }
         } catch (Exception e) {
         }
         return isPlacaMae;
     }
 
-    private boolean isPlacaMae(Produto p) {
-        return p.getCategoria().contains("placa");
+    private boolean isPlacaMae(Produto p) { 
+        return p.getCategoria().toLowerCase().contains("placa");
     }
 
     private String verificaCompatibilidadeItens() {
