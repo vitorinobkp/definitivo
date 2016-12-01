@@ -47,7 +47,8 @@ public class ProdutoDAO {
 					+ " nome = '_nome',"
 					+ "descricao = '_descricao',"
 					+ "quantidade = _quantidade,"
-					+ "preco = _preco";
+					+ "preco = _preco " 
+                                        + "where id = " + produto.getCodigo();
 			sql = sql.replaceAll("_nome", produto.getNome());
 			sql = sql.replaceAll("_descricao", produto.getDescricao());
 			sql = sql.replaceAll("_quantidade", String.valueOf(produto.getQuantidade()));

@@ -46,7 +46,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         txtProduto = new javax.swing.JTextField();
         txtPreco = new javax.swing.JTextField();
         txtQuantidade = new javax.swing.JTextField();
-        txtDescricao = new javax.swing.JTextField();
         btnCadastroPesquisarCod = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         chkLinux = new javax.swing.JCheckBox();
@@ -58,6 +57,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         cbCategoria = new javax.swing.JComboBox<>();
         btnSalvar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtDescricao = new javax.swing.JTextArea();
         jpVendas = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -72,6 +73,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaItemVenda = new javax.swing.JTable();
         btnFinalizar = new javax.swing.JButton();
+        btnRemover = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
@@ -97,12 +99,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         txtQuantidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtQuantidadeActionPerformed(evt);
-            }
-        });
-
-        txtDescricao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescricaoActionPerformed(evt);
             }
         });
 
@@ -190,6 +186,10 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        txtDescricao.setColumns(20);
+        txtDescricao.setRows(5);
+        jScrollPane3.setViewportView(txtDescricao);
+
         javax.swing.GroupLayout jpCadastroLayout = new javax.swing.GroupLayout(jpCadastro);
         jpCadastro.setLayout(jpCadastroLayout);
         jpCadastroLayout.setHorizontalGroup(
@@ -219,10 +219,10 @@ public class frmPrincipal extends javax.swing.JFrame {
                                 .addComponent(btnSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                                 .addComponent(btnExcluir))
-                            .addComponent(txtDescricao)
                             .addGroup(jpCadastroLayout.createSequentialGroup()
                                 .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3))))
                 .addGap(27, 27, 27)
                 .addGroup(jpCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -233,7 +233,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             jpCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jpCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpCadastroLayout.createSequentialGroup()
                         .addGroup(jpCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -252,18 +252,22 @@ public class frmPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jpCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jpCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jpCadastroLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(158, 158, 158))
+                            .addGroup(jpCadastroLayout.createSequentialGroup()
+                                .addComponent(jScrollPane3)
+                                .addGap(18, 18, 18))))
                     .addGroup(jpCadastroLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
                 .addGroup(jpCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalvar)
                     .addComponent(btnExcluir))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
 
         txtCodigo.getAccessibleContext().setAccessibleName("txtCodigo1");
@@ -393,6 +397,13 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -402,6 +413,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFinalizar)))
                 .addContainerGap())
         );
@@ -410,7 +423,9 @@ public class frmPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(btnFinalizar)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFinalizar)
+                    .addComponent(btnRemover))
                 .addContainerGap())
         );
 
@@ -490,19 +505,21 @@ public class frmPrincipal extends javax.swing.JFrame {
             if (validaPlacaMae()) {
                 erro = verificaCompatibilidadeItens();
             }
-            if (!erro.equals("")) {
-                JOptionPane.showMessageDialog(null, erro);
+            if (erro != null) {
+                if (!erro.equals("")) {
+                    JOptionPane.showMessageDialog(null, erro);
+                }
             }
             for (int i = 0; i < tabelaItemVenda.getRowCount(); i++) {
-                Object codigo = tabelaItemVenda.getValueAt(i,0);
+                Object codigo = tabelaItemVenda.getValueAt(i, 0);
                 Object qtdComprar = tabelaItemVenda.getValueAt(i, 4);
                 Controlador ctrl = new Controlador();
-                ctrl.darBaixaNoEstoque(Integer.parseInt(codigo.toString()),Integer.parseInt(qtdComprar.toString()));
+                ctrl.darBaixaNoEstoque(Integer.parseInt(codigo.toString()), Integer.parseInt(qtdComprar.toString()));
                 JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
                 btnPesquisarVenda.doClick();
                 limparItensVenda();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Falha na finalização da venda: " + e.getMessage());
         }
 
@@ -585,11 +602,15 @@ public class frmPrincipal extends javax.swing.JFrame {
         String compatMac = chkMacOS.isSelected() ? "S" : "N";
         String outros = chkMacOS.isSelected() ? "S" : "N";
         Double preco = Double.parseDouble(txtPreco.getText());
-        String erro = ctrl.cadastrarProduto(Integer.valueOf(0), preco,
-            Integer.valueOf(txtQuantidade.getText()), compatWindows, compatLinux, compatMac, outros,
-            String.valueOf(txtProduto.getText()), String.valueOf(txtDescricao.getText()),
-            cbModelo.getSelectedItem().toString(), cbSlot.getSelectedItem().toString(),
-            cbCategoria.getSelectedItem().toString());
+        String strCodigo = txtCodigo.getText();
+        if(strCodigo.equals("")){
+            strCodigo = "0";
+        }
+        String erro = ctrl.cadastrarProduto(Integer.valueOf(strCodigo), preco,
+                Integer.valueOf(txtQuantidade.getText()), compatWindows, compatLinux, compatMac, outros,
+                String.valueOf(txtProduto.getText()), String.valueOf(txtDescricao.getText()),
+                cbModelo.getSelectedItem().toString(), cbSlot.getSelectedItem().toString(),
+                cbCategoria.getSelectedItem().toString());
         JOptionPane.showMessageDialog(null, erro);
         limparTela();
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -607,10 +628,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         buscarProduto(codigo, txtProduto.getText());
     }//GEN-LAST:event_btnCadastroPesquisarCodActionPerformed
 
-    private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescricaoActionPerformed
-
     private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtQuantidadeActionPerformed
@@ -627,6 +644,19 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
         buscarProduto(codigo, null);
     }//GEN-LAST:event_txtCodigoFocusLost
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        if(tabelaItemVenda.getSelectedRowCount()>0){
+        DefaultTableModel model = (DefaultTableModel) tabelaItemVenda.getModel();
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+        
+        tabelaItemVenda.setModel(model);
+        } else {
+            JOptionPane.showMessageDialog(null, "É preciso selecionar um item, para remove-lo da lista.");
+        }
+    }//GEN-LAST:event_btnRemoverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -677,6 +707,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnPesquisarVenda;
+    private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<String> cbCategoria;
@@ -699,13 +730,14 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel jpCadastro;
     private javax.swing.JPanel jpVendas;
     private javax.swing.JTabbedPane jtbSistemaEstoque;
     private javax.swing.JTable tabelaItemVenda;
     private javax.swing.JTable tabelaProdutos;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtDescricao;
+    private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtPreco;
     private javax.swing.JTextField txtProduto;
     private javax.swing.JTextField txtQuantidade;
@@ -796,15 +828,16 @@ public class frmPrincipal extends javax.swing.JFrame {
             for (int i = 0; i < tabelaItemVenda.getRowCount(); i++) {
                 int codigo = Integer.valueOf(tabelaItemVenda.getValueAt(i, 0).toString());
                 Produto p = ctrl.buscarProduto(codigo, "");
-                if(isPlacaMae(p))
+                if (isPlacaMae(p)) {
                     return true;
+                }
             }
         } catch (Exception e) {
         }
         return isPlacaMae;
     }
 
-    private boolean isPlacaMae(Produto p) { 
+    private boolean isPlacaMae(Produto p) {
         return p.getCategoria().toLowerCase().contains("placa");
     }
 
